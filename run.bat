@@ -1,2 +1,3 @@
 set FLASK_APP=index.py
-flask run
+set FLASK_DEBUG=1
+flask run --host=0.0.0.0
