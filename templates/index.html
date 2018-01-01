@@ -6,6 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.css') }}">
     <title>My Video Site</title>
+    <style>
+    @media (min-width: 576px) {
+        .card-columns {
+            column-count: 1;
+        }
+    }
+    @media (min-width: 768px) {
+        .card-columns {
+            column-count: 3;
+        }
+    }
+    @media (min-width: 992px) {
+        .card-columns {
+            column-count: 4;
+        }
+    }
+    </style>
 </head>
 
 <body style="padding-top: 50px;">
@@ -38,14 +55,12 @@
         </div>
     </nav>
     <div class="container">
-        <div class="row align-items-start">
+        <div class="card-columns">
             {% for i in data.videos %}
-            <div class="col-md-3 col-sm-4 col-12 mt-3">
-                <div class="card" style="cursor: pointer;" onclick="window.location='/video/{{ i.id }}';">
-                    <img class="card-img-top" src="{{ i.picture }}" alt="{{ i.name }}">
-                    <div class="card-body">
-                        {{ i.name }}
-                    </div>
+            <div class="card" style="cursor: pointer;" onclick="window.location='/video/{{ i.id }}';">
+                <img class="card-img-top" src="{{ i.picture }}" alt="{{ i.name }}">
+                <div class="card-body">
+                    {{ i.name }}
                 </div>
             </div>
             {% endfor %}
