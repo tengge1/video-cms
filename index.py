@@ -1,4 +1,5 @@
-from flask import Flask, url_for, render_template, request, session, json, send_from_directory
+from flask import Flask, url_for, render_template, request, session, json, send_from_directory, current_app, g
+from config.config import *
 from base.sqlhelper import SqlHelper
 
 app = Flask(__name__)
@@ -8,6 +9,7 @@ app.config['SECRET_KEY'] = 'video-cms'
 @app.route('/index')
 @app.route('/index/<int:category_id>')
 def index(category_id = None):
+	g.website_name = website_name
 	if session.get('username') == None:
 		return render_template('login.html')
 	else:
@@ -31,6 +33,7 @@ def index(category_id = None):
 
 @app.route('/login', methods = [ 'GET', 'POST' ])
 def login():
+	g.website_name = website_name
 	if request.method == 'POST':
 		username = request.values.get('username')
 		password = request.values.get('password')
@@ -69,6 +72,7 @@ def video(video_id):
 	helper = SqlHelper()
 	categories = helper.fetchall(sql)
 
+	g.website_name = website_name
 	return render_template('video.html', data = {
 		'video': video,
 		'categories': categories
@@ -80,4 +84,5 @@ def send_upload(path):
 
 @app.route('/setting')
 def setting():
+	g.website_name = website_name
 	return render_template('setting.html')

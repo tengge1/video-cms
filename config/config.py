@@ -1,3 +1,7 @@
+
+# website
+website_name = 'My Video'
+
 # mysql
 host='localhost'
 port = 3306
