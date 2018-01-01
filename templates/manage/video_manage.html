@@ -4,33 +4,39 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.css') }}">
+    <link rel="stylesheet" href="static/css/bootstrap.css">
     <title>My Video Site</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="/">My Video Site</a>
+        <a class="navbar-brand" href="#">My Video Site</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ 'active' if not data.current_id }}">
-                    <a class="nav-link" href="/">Home</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
-                {% for i in data.categories %}
-                <li class="nav-item {{ 'active' if i.id == data.current_id else '' }}">
-                    <a class="nav-link" href="/index/{{ i.id }}">{{ i.name }}</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Category</a>
                 </li>
-                {% endfor %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Category</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Category</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Category</a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">System</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Category Manage</a>
                         <a class="dropdown-item" href="#">Video Manage</a>
                         <a class="dropdown-item" href="#">User Manage</a>
-                        <a class="dropdown-item" href="#">Settings</a>
                         <a class="dropdown-item" href="javascript:;" onclick="logout()">Logout</a>
                     </div>
                 </li>
@@ -105,9 +111,9 @@
             </div>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="static/js/jquery.js"></script>
+    <script src="static/js/popper.js"></script>
+    <script src="static/js/bootstrap.js"></script>
     <script>
     var logout = function() {
         $.post('/logout', function() {

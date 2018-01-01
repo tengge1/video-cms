@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2018-01-01 13:09:20
+Date: 2018-01-01 15:42:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,11 +23,16 @@ CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
+INSERT INTO `category` VALUES ('1', 'News');
+INSERT INTO `category` VALUES ('2', 'Education');
+INSERT INTO `category` VALUES ('3', 'Society');
+INSERT INTO `category` VALUES ('4', 'Entertainment');
+INSERT INTO `category` VALUES ('5', 'Others');
 
 -- ----------------------------
 -- Table structure for user

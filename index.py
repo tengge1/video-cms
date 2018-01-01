@@ -5,11 +5,19 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'video-cms'
 
 @app.route('/')
-def index():
+@app.route('/index')
+@app.route('/index/<int:category_id>')
+def index(category_id = None):
 	if session.get('username') == None:
 		return render_template('login.html')
 	else:
-		return render_template('index.html')
+		sql = "select * from category"
+		helper = SqlHelper()
+		categories = helper.fetchall(sql)
+		return render_template('index.html', data = {
+			'categories': categories,
+			'current_id': category_id
+			})
 
 @app.route('/login', methods = [ 'GET', 'POST' ])
 def login():
@@ -28,10 +36,20 @@ def login():
 			session['username'] = result['username']
 			return json.dumps({
 				'success': 'true',
-				'msg': 'Login succeed!'
+				'msg': 'Login success!'
 				});
 	else:
 		return render_template('login.html')
+
+@app.route('/logout', methods = [ 'GET', 'POST' ])
+def logout():
+	session.clear()
+	return json.dumps({
+		'success': 'true',
+		'msg': 'Logout success!'
+		});
+
+
 
 @app.route('/list/<int:type_id>')
 def list(type_id):
