@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, request, session, json
+from flask import Flask, url_for, render_template, request, session, json, send_from_directory
 from base.sqlhelper import SqlHelper
 
 app = Flask(__name__)
@@ -14,10 +14,20 @@ def index(category_id = None):
 		sql = "select * from category"
 		helper = SqlHelper()
 		categories = helper.fetchall(sql)
+
+		videos = None
+		if category_id is None:
+			sql = "select * from video"
+			videos = helper.fetchall(sql)
+		else:
+			sql = "select * from video where category_id=%s"
+			videos = helper.fetchall(sql, (category_id,))
+
 		return render_template('index.html', data = {
 			'categories': categories,
-			'current_id': category_id
-			})
+			'current_id': category_id,
+			'videos': videos
+			});
 
 @app.route('/login', methods = [ 'GET', 'POST' ])
 def login():
@@ -49,15 +59,13 @@ def logout():
 		'msg': 'Logout success!'
 		});
 
-
-
-@app.route('/list/<int:type_id>')
-def list(type_id):
-	pass
-
 @app.route('/video/<int:video_id>')
 def video(video_id):
 	pass
+
+@app.route('/upload/<path:path>')
+def send_upload(path):
+	return send_from_directory('upload', path)
 
 @app.route('/setting')
 def setting():
