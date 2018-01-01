@@ -21,3 +21,6 @@ def list(type_id):
 def video(video_id):
 	pass
 
+@app.route('/setting')
+def setting():
+	return render_template('setting.html')
