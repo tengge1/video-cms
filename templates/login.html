@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.css') }}">
     <title>Login</title>
 </head>
 
@@ -25,9 +25,9 @@
             <button type="button" class="btn btn-primary" onclick="login()">Login</button>
         </form>
     </div>
-    <script src="static/js/jquery.js"></script>
-    <script src="static/js/popper.js"></script>
-    <script src="static/js/bootstrap.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
     <script>
         var login = function () {
             var username = $('#username').val();

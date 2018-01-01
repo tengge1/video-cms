@@ -61,7 +61,18 @@ def logout():
 
 @app.route('/video/<int:video_id>')
 def video(video_id):
-	pass
+	sql = "select * from video where id=%s"
+	helper = SqlHelper()
+	video = helper.fetchone(sql, (video_id,))
+
+	sql = "select * from category"
+	helper = SqlHelper()
+	categories = helper.fetchall(sql)
+
+	return render_template('video.html', data = {
+		'video': video,
+		'categories': categories
+		});
 
 @app.route('/upload/<path:path>')
 def send_upload(path):

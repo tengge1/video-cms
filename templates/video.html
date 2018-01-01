@@ -5,22 +5,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.css') }}">
-    <title>My Video Site</title>
+    <title>{{ data.video.name }}</title>
 </head>
 
 <body style="padding-top: 50px;">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="/">My Video Site</a>
+        <a class="navbar-brand" href="#">{{ data.video.name }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ 'active' if not data.current_id }}">
+                <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 {% for i in data.categories %}
-                <li class="nav-item {{ 'active' if i.id == data.current_id else '' }}">
+                <li class="nav-item {{ 'active' if i.id == data.video.category_id else '' }}">
                     <a class="nav-link" href="/index/{{ i.id }}">{{ i.name }}</a>
                 </li>
                 {% endfor %}
@@ -37,29 +37,24 @@
             </ul>
         </div>
     </nav>
-    <div class="container">
-        <div class="row align-items-start">
-            {% for i in data.videos %}
-            <div class="col-md-3 col-sm-4 col-12 mt-3">
-                <div class="card" style="cursor: pointer;" onclick="window.location='/video/{{ i.id }}';">
-                    <img class="card-img-top" src="{{ i.picture }}" alt="{{ i.name }}">
-                    <div class="card-body">
-                        {{ i.name }}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+    <div class="container mt-5">
+        <h3>{{ data.video.name }}</h3>
+        <div class="row">
+            <div class="col-md-8 col-sm-12 col-12 align-self-center" id="video" style="height: 450px;"></div>
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ckplayer/ckplayer.js') }}"></script>
     <script>
-    var logout = function() {
-        $.post('/logout', function() {
-            window.location = '/login';
-        })
-    }
+    var videoObject = {
+        container: '#video',
+        variable: 'player',
+        autoplay: true,
+        video: '{{ data.video.path }}'
+    };
+    var player = new ckplayer(videoObject);
     </script>
 </body>
 
