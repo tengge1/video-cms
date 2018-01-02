@@ -78,11 +78,51 @@ def video(video_id):
 		'categories': categories
 		});
 
+@app.route('/manage/category')
+def category_manage():
+	sql = "select * from category"
+	helper = SqlHelper()
+	categories = helper.fetchall(sql)
+
+	g.website_name = website_name
+	return render_template('manage/category.html', data = {
+		'categories': categories,
+		});
+
+@app.route('/manage/video')
+def video_manage():
+	sql = "select * from category"
+	helper = SqlHelper()
+	categories = helper.fetchall(sql)
+
+	g.website_name = website_name
+	return render_template('manage/video.html', data = {
+		'categories': categories,
+		});
+
+@app.route('/manage/user')
+def user_manage():
+	sql = "select * from category"
+	helper = SqlHelper()
+	categories = helper.fetchall(sql)
+
+	g.website_name = website_name
+	return render_template('manage/user.html', data = {
+		'categories': categories,
+		});
+
+@app.route('/manage/setting')
+def setting():
+	sql = "select * from category"
+	helper = SqlHelper()
+	categories = helper.fetchall(sql)
+
+	g.website_name = website_name
+	return render_template('manage/setting.html', data = {
+		'categories': categories,
+		});
+
 @app.route('/upload/<path:path>')
 def send_upload(path):
 	return send_from_directory('upload', path)
 
-@app.route('/setting')
-def setting():
-	g.website_name = website_name
-	return render_template('setting.html')

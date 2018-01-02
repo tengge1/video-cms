@@ -37,10 +37,17 @@
             </ul>
         </div>
     </nav>
-    <h1>Category Manage</h1>
+    <h1>User Manage</h1>
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script>
+    var logout = function() {
+        $.post('/logout', function() {
+            window.location = '/login';
+        })
+    }
+    </script>
 </body>
 
 </html>

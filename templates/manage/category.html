@@ -16,7 +16,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ 'active' if not data.current_id }}">
+                <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 {% for i in data.categories %}
@@ -24,7 +24,7 @@
                     <a class="nav-link" href="/index/{{ i.id }}">{{ i.name }}</a>
                 </li>
                 {% endfor %}
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">System</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/manage/category">Category Manage</a>
@@ -41,6 +41,13 @@
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script>
+    var logout = function() {
+        $.post('/logout', function() {
+            window.location = '/login';
+        })
+    }
+    </script>
 </body>
 
 </html>
