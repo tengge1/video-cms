@@ -19,8 +19,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-                {% for i in data.categories %}
-                <li class="nav-item {{ 'active' if i.id == data.current_id else '' }}">
+                {% for i in g.categories %}
+                <li class="nav-item">
                     <a class="nav-link" href="/index/{{ i.id }}">{{ i.name }}</a>
                 </li>
                 {% endfor %}
@@ -37,17 +37,54 @@
             </ul>
         </div>
     </nav>
-    <h1>Category Manage</h1>
+    <div class="container">
+        <div class="p-1">
+            <button type="button" class="btn btn-outline-primary">Add</button>
+        </div>
+        <div class="p-1 table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="table-warning">
+                        <td scope="col" style="width: 60px;"></td>
+                        <td scope="col">Name</td>
+                        <td scope="col" style="width:150px;">Commands</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in g.rows %}
+                    <tr>
+                        <td scope="row" style="text-align: center;">{{ i.id }}</td>
+                        <td>{{ i.name }}</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-sm">Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="p-1">
+            <nav aria-label="...">
+                <ul class="pagination justify-content-start">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-    <script>
-    var logout = function() {
-        $.post('/logout', function() {
-            window.location = '/login';
-        })
-    }
-    </script>
 </body>
 
 </html>

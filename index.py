@@ -80,14 +80,31 @@ def video(video_id):
 
 @app.route('/manage/category')
 def category_manage():
-	sql = "select * from category"
+	pageSize = request.values.get('pageSize')
+	pageNum = request.values.get('pageNum')
+
+	if pageSize is None:
+		pageSize = 10
+	if pageNum is None:
+		pageNum = 1
+	
 	helper = SqlHelper()
+	sql = "select * from category"
 	categories = helper.fetchall(sql)
 
+	sql = "select count(1) from category"
+	total = helper.fetchone(sql)
+
+	sql = "select * from category order by id desc limit %s,%s "
+	rows = helper.fetchall(sql, (pageSize * (pageNum - 1), pageSize))
+
 	g.website_name = website_name
-	return render_template('manage/category.html', data = {
-		'categories': categories,
-		});
+	g.categories = categories
+	g.pageSize = pageSize
+	g.pageNum = pageNum
+	g.total = total
+	g.rows = rows
+	return render_template('manage/category.html');
 
 @app.route('/manage/video')
 def video_manage():
