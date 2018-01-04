@@ -1,81 +1,24 @@
-<!doctype html>
-<html lang="zh-cn">
+{% extends "layout.html" %} 
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.css') }}">
-    <title>My Video Site</title>
-    <style>
-    @media (min-width: 576px) {
-        .card-columns {
-            column-count: 1;
-        }
-    }
-    @media (min-width: 768px) {
-        .card-columns {
-            column-count: 3;
-        }
-    }
-    @media (min-width: 992px) {
-        .card-columns {
-            column-count: 4;
-        }
-    }
-    </style>
-</head>
-
-<body style="padding-top: 60px;">
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="/">{{ g.website_name }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ 'active' if not data.current_id }}">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                {% for i in data.categories %}
-                <li class="nav-item {{ 'active' if i.id == data.current_id else '' }}">
-                    <a class="nav-link" href="/index/{{ i.id }}">{{ i.name }}</a>
-                </li>
-                {% endfor %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">System</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/manage/category">Category Manage</a>
-                        <a class="dropdown-item" href="/manage/video">Video Manage</a>
-                        <a class="dropdown-item" href="/manage/user">User Manage</a>
-                        <a class="dropdown-item" href="/manage/setting">Settings</a>
-                        <a class="dropdown-item" href="javascript:;" onclick="logout()">Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="container">
-        <div class="card-columns">
-            {% for i in data.videos %}
-            <div class="card" style="cursor: pointer;" onclick="window.location='/video/{{ i.id }}';">
-                <img class="card-img-top" src="{{ i.picture }}" alt="{{ i.name }}">
-                <div class="card-body">
-                    {{ i.name }}
-                </div>
-            </div>
-            {% endfor %}
+{% block content %}
+<div class="card-columns">
+    {% for i in g.videos %}
+    <div class="card" style="cursor: pointer;" onclick="window.location='/video/{{ i.id }}';">
+        <img class="card-img-top" src="{{ i.picture }}" alt="{{ i.name }}">
+        <div class="card-body">
+            {{ i.name }}
         </div>
     </div>
-    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-    <script>
-    var logout = function() {
-        $.post('/logout', function() {
-            window.location = '/login';
-        })
-    }
-    </script>
-</body>
+    {% endfor %}
+</div>
+{% endblock %} 
 
-</html>
+{% block script %}
+<script>
+var logout = function() {
+    $.post('/logout', function() {
+        window.location = '/login';
+    })
+}
+</script>
+{% endblock %}

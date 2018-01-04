@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>My Video Site</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.css') }}">
+</head>
+
+<body style="padding-top: 60px;">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">{{ g.website_name }}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                {% for i in g.categories %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/index/{{ i.id }}">{{ i.name }}</a>
+                </li>
+                {% endfor %}
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">System</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/manage/category">Category Manage</a>
+                        <a class="dropdown-item" href="/manage/video">Video Manage</a>
+                        <a class="dropdown-item" href="/manage/user">User Manage</a>
+                        <a class="dropdown-item" href="/manage/setting">Settings</a>
+                        <a class="dropdown-item" href="javascript:;" onclick="logout()">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <form class="p-1">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
+            </div>
+        </form>
+        <div class="p-1">
+            <button type="button" class="btn btn-outline-primary" onclick="save();">Add</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script>
+    var save = function() {
+        var name = $('#name').val();
+        if(name == '') {
+            alert('Name cannot be empty!');
+            return;
+        }
+
+        $.post('/manage/category/add', {
+            name: name
+        }, function(data) {
+            var obj = JSON.parse(data);
+            if(obj.success == 'true') {
+                window.location = '/manage/category';
+            }
+        })
+    }
+    </script>
+</body>
+
+</html>
