@@ -210,11 +210,6 @@ def user_delete(id):
 		'msg': 'Delete success!'
 		})
 
-@app.route('/manage/setting')
-def setting():
-	init()
-	return render_template('manage/setting.html')
-
 @app.route('/upload/<path:path>')
 def send_upload(path):
 	return send_from_directory('upload', path)
