@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="p-1">
-    <button type="button" class="btn btn-outline-primary" onclick="window.location='/manage/category/edit/0'">Add</button>
+    <button type="button" class="btn btn-outline-primary" onclick="window.location='/manage/category/edit'">Add</button>
 </div>
 <div class="p-1 table-responsive">
     <table class="table table-bordered table-hover">
@@ -30,20 +30,16 @@
 <div class="p-1">
     <nav aria-label="Pagination">
         <ul class="pagination justify-content-start">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            <li class="page-item {{ 'disabled' if g.pageNum == 1 }}">
+                <a class="page-link" href="/manage/category?pageNum={{ g.pageNum - 1 }}" tabindex="-1">Previous</a>
             </li>
-            {% for i in range() %}
-
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active">
-                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+            {% for i in range(g.totalPage) %}
+            <li class="page-item {{ 'active' if i + 1 == g.pageNum }} ">
+                <a class="page-link" href="/manage/category?pageNum={{ i + 1 }}">{{ i + 1 }}</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-
             {% endfor %}
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+            <li class="page-item {{ 'disabled' if g.pageNum == g.totalPage }}">
+                <a class="page-link" href="/manage/category?pageNum={{ g.pageNum + 1 }}">Next</a>
             </li>
         </ul>
     </nav>
@@ -53,7 +49,7 @@
 {% block script %}
 <script>
 var edit_category = function(id) {
-    window.location = '/manage/category/edit/' + id;
+    window.location = '/manage/category/edit?id=' + id;
 }
 
 var delete_category = function(id) {

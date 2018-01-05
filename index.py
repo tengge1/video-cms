@@ -81,30 +81,46 @@ def category_manage():
 		g.pageSize = 10
 	if g.pageNum is None:
 		g.pageNum = 1
+
+	g.pageNum = int(g.pageNum)
+	g.pageSize = int(g.pageSize)
 	
 	helper = SqlHelper()
-	sql = "select count(1) from category"
-	g.total = helper.fetchone(sql)
+	sql = "select count(1) total from category"
+	g.total = helper.fetchone(sql)['total']
+	g.totalPage = g.total / g.pageSize if g.total % g.pageSize == 0 else g.total // g.pageSize + 1
 
 	sql = "select * from category order by id desc limit %s,%s "
 	g.rows = helper.fetchall(sql, (g.pageSize * (g.pageNum - 1), g.pageSize))
 	
 	return render_template('manage/category.html');
 
-@app.route('/manage/category/add', methods = [ 'GET', 'POST' ])
-def category_add():
+@app.route('/manage/category/edit', methods = [ 'GET','POST' ])
+def category_edit():
 	init()
+	id = request.values.get('id')
+	id = 0 if id is None else int(id)
 	helper = SqlHelper()
 	if request.method == 'POST':
 		name = request.values.get('name')
-		sql = "insert into category (name) values (%s)"
-		helper.execute(sql, (name,))
+		if id == 0:
+			sql = "insert into category (name) values (%s)"
+			helper.execute(sql, (name,))
+		else:
+			sql = "update category set name=%s where id=%s"
+			helper.execute(sql, (name, id))
 		return json.dumps({
 			'success': 'true',
 			'msg': 'Save success!'
 			})
 	else:
-		return render_template('manage/category_add.html');
+		g.id = id
+		g.name = ''
+		if g.id > 0:
+			sql = "select name from category where id=%s"
+			category = helper.fetchone(sql, (id,))
+			g.name = category['name']
+		return render_template('manage/category_edit.html');
 
 @app.route('/manage/category/delete/<int:id>', methods = ['POST'])
 def category_delete(id):
