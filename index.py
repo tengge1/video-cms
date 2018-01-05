@@ -93,6 +93,7 @@ def category_manage():
 	sql = "select * from category order by id desc limit %s,%s "
 	g.rows = helper.fetchall(sql, (g.pageSize * (g.pageNum - 1), g.pageSize))
 	
+	g.category_id = 'category_manage'
 	return render_template('manage/category.html');
 
 @app.route('/manage/category/edit', methods = [ 'GET','POST' ])
@@ -120,6 +121,7 @@ def category_edit():
 			sql = "select name from category where id=%s"
 			category = helper.fetchone(sql, (id,))
 			g.name = category['name']
+		g.category_id = 'category_manage'
 		return render_template('manage/category_edit.html');
 
 @app.route('/manage/category/delete/<int:id>', methods = ['POST'])

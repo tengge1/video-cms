@@ -43,7 +43,7 @@
                     <a class="nav-link" href="/index/{{ i.id }}">{{ i.name }}</a>
                 </li>
                 {% endfor %}
-                <li class="nav-item dropdown">
+                <li class="nav-item {{ 'active' if g.category_id == 'category_manage' }} dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">System</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/manage/category">Category Manage</a>
