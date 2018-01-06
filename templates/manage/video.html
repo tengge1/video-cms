@@ -1,53 +1,73 @@
-<!doctype html>
-<html lang="zh-cn">
+{% extends "layout.html" %} 
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>My Video Site</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.css') }}">
-</head>
-
-<body style="padding-top: 60px;">
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="/">{{ g.website_name }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ 'active' if not data.current_id }}">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                {% for i in data.categories %}
-                <li class="nav-item {{ 'active' if i.id == data.current_id else '' }}">
-                    <a class="nav-link" href="/index/{{ i.id }}">{{ i.name }}</a>
-                </li>
-                {% endfor %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">System</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/manage/category">Category Manage</a>
-                        <a class="dropdown-item" href="/manage/video">Video Manage</a>
-                        <a class="dropdown-item" href="/manage/user">User Manage</a>
-                        <a class="dropdown-item" href="/manage/setting">Settings</a>
-                        <a class="dropdown-item" href="javascript:;" onclick="logout()">Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
+{% block content %}
+<div class="p-1">
+    <button type="button" class="btn btn-outline-primary" onclick="window.location='/manage/video/edit'">Add</button>
+</div>
+<div class="p-1 table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr class="table-warning">
+                <td scope="col" style="width: 60px;"></td>
+                <td scope="col">Category</td>
+                <td scope="col">Name</td>
+                <td scope="col">Path</td>
+                <td scope="col" style="width:150px;">Commands</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in g.rows %}
+            <tr>
+                <td scope="row" style="text-align: center;">{{ i.id }}</td>
+                <td>{{ i.category_name }}</td>
+                <td>{{ i.name }}</td>
+                <td>{{ i.path }}</td>
+                <td>
+                    <button type="button" class="btn btn-success btn-sm" onclick="edit_video({{ i.id }})">Edit</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="delete_video({{ i.id }})">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="p-1">
+    <nav aria-label="Pagination">
+        <ul class="pagination justify-content-start">
+            <li class="page-item {{ 'disabled' if g.pageNum == 1 }}">
+                <a class="page-link" href="/manage/video?pageNum={{ g.pageNum - 1 }}" tabindex="-1">Previous</a>
+            </li>
+            {% for i in range(g.totalPage) %}
+            <li class="page-item {{ 'active' if i + 1 == g.pageNum }} ">
+                <a class="page-link" href="/manage/video?pageNum={{ i + 1 }}">{{ i + 1 }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item {{ 'disabled' if g.pageNum == g.totalPage }}">
+                <a class="page-link" href="/manage/video?pageNum={{ g.pageNum + 1 }}">Next</a>
+            </li>
+        </ul>
     </nav>
-    <h1>Video Manage</h1>
-    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-    <script>
-    var logout = function() {
-        $.post('/logout', function() {
-            window.location = '/login';
-        })
-    }
-    </script>
-</body>
+</div>
+{% endblock %} 
 
-</html>
+{% block script %}
+<script>
+var edit_video = function(id) {
+    window.location = '/manage/video/edit?id=' + id;
+}
+
+var delete_video = function(id) {
+    if (!confirm('Confirm to delete?')) {
+        return
+    }
+    $.post('/manage/video/delete/' + id, function(data) {
+        var obj = JSON.parse(data)
+        if (obj.success == 'true') {
+            window.location.reload();
+        } else {
+            alert(obj.msg);
+        }
+    });
+}
+</script>
+{% endblock %}

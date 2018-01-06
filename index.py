@@ -138,7 +138,76 @@ def category_delete(id):
 @app.route('/manage/video')
 def video_manage():
 	init()
-	return render_template('manage/video.html')
+	g.pageSize = request.values.get('pageSize')
+	g.pageNum = request.values.get('pageNum')
+
+	if g.pageSize is None:
+		g.pageSize = 10
+	if g.pageNum is None:
+		g.pageNum = 1
+
+	g.pageNum = int(g.pageNum)
+	g.pageSize = int(g.pageSize)
+	
+	helper = SqlHelper()
+	sql = "select count(1) total from video"
+	g.total = helper.fetchone(sql)['total']
+	g.totalPage = int(g.total / g.pageSize) if g.total % g.pageSize == 0 else g.total // g.pageSize + 1
+
+	sql = """select video.id,video.category_id,category.name category_name,video.name,video.path from video 
+	    left join category on video.category_id=category.id order by id desc limit %s,%s """
+	g.rows = helper.fetchall(sql, (g.pageSize * (g.pageNum - 1), g.pageSize))
+	
+	g.category_id = 'system'
+	return render_template('manage/video.html');
+
+@app.route('/manage/video/edit', methods = [ 'GET','POST' ])
+def video_edit():
+	init()
+	id = request.values.get('id')
+	id = 0 if id is None else int(id)
+	helper = SqlHelper()
+	if request.method == 'POST':
+		category_id = request.values.get('category_id')
+		name = request.values.get('name')
+		path = request.values.get('path')
+		picture = request.values.get('picture')
+		if id == 0:
+			sql = "insert into video (category_id,name,path,picture) values (%s,%s,%s,%s)"
+			helper.execute(sql, (category_id, name, path, picture))
+		else:
+			sql = "update video set category_id=%s,name=%s,path=%s,picture=%s where id=%s"
+			helper.execute(sql, (category_id, name, path, picture, id))
+		return json.dumps({
+			'success': 'true',
+			'msg': 'Save success!'
+			})
+	else:
+		g.id = id
+		g.video_category_id = 0
+		g.name = ''
+		g.path = ''
+		g.picture = ''
+		if g.id > 0:
+			sql = "select category_id,name,path,picture from video where id=%s"
+			video = helper.fetchone(sql, (id,))
+			g.video_category_id = video['category_id']
+			g.name = video['name']
+			g.path = video['path']
+			g.picture = video['picture']
+		g.category_id = 'system'
+		return render_template('manage/video_edit.html');
+
+@app.route('/manage/video/delete/<int:id>', methods = ['POST'])
+def video_delete(id):
+	init()
+	helper = SqlHelper()
+	sql = "delete from video where id=%s"
+	helper.execute(sql, (id,))
+	return json.dumps({
+		'success': 'true',
+		'msg': 'Delete success!'
+		})
 
 @app.route('/manage/user')
 def user_manage():
