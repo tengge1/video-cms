@@ -37,8 +37,6 @@ Double click `run.bat` on windows, or execute `sudo ./run.sh` on ubuntu.
 
 ![image](https://github.com/tengge1/video-cms/blob/master/image/home-mobile.png)
 
-![image](https://github.com/tengge1/video-cms/blob/master/image/login-pc.png)
-
 ![image](https://github.com/tengge1/video-cms/blob/master/image/play-video.png)
 
 ![image](https://github.com/tengge1/video-cms/blob/master/image/category-manage.png)
