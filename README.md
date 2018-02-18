@@ -1,33 +1,33 @@
 # video-cms
 
-A simple responsive video management and playing website. You can make a private cinema, and will have great fun laying in bed and watching your favorite films at the weekend. Enjoy yourself! 
+使用Python Flask和Bootstrap做的简单视频在线播放网站。
 
-## Required
+## 需求
 
-* OS: Windows or ubuntu
-* Python: Greater than 3.5.0
+* 操作系统： Windows或Ubuntu
+* Python： 高于3.5.0
 
-## Install
+## 安装方法
 
-1. Install python.
+1. 下载Python。
 
-For windows users, you can visit `https://www.python.org/downloads/` to download python3;
-For ubuntu users, python3 has been installed in your system, and you should skip this step.
+对于Windows用户，请访问`https://www.python.org/downloads/`来下载Python3；
 
-2. Install flask.
+对于Ubuntu用户，Python3已经默认安装在系统中，跳过这一步即可。
 
-Open powershell on windows or shell on ubuntu, run `pip install Flask`.
+2. 安装Flask。
 
-3. Install mysql plugin.
+在Windows上打开PowerShell或在Ubuntu上打开Shell， 执行`pip install Flask`。
 
-Open powershell on windows or shell on ubuntu, run `pip install PyMySQL` to install mysql
-plugin for python3.
+3. 安装MySQL插件。
 
-4. Run the program.
+在Windows上打开PowerShell或在Ubuntu上打开Shell，执行`pip install PyMySQL`来安装基于Python3的MySQL插件。
 
-Double click `run.bat` on windows, or execute `sudo ./run.sh` on ubuntu.
+4. 运行程序。
 
-# Screenshots
+在Windows双击 `run.bat`，或者 在Ubuntu上执行`sudo ./run.sh`。
+
+# 截图
 
 ![image](https://github.com/tengge1/video-cms/blob/master/image/login-pc.png)
 
