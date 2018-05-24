@@ -25,7 +25,7 @@
 
 4. 运行程序。
 
-在Windows双击 `run.bat`，或者 在Ubuntu上执行`sudo ./run.sh`。
+在Windows双击 `start.bat`，或者 在Ubuntu上执行`sudo ./start.sh`。
 
 # 截图
 
